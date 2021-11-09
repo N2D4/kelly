@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <title>Kelly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body
+    style="position: relative; background-color: #EDEBEA; font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100%; gap: 8px;">
+    <div style="font-size: 75%;">
+        Odds: <span id="headschance">60%</span> heads, <span id="tailschance">40%</span> tails
+    </div>
+    <div style="font-size: 75%;">
+        Payout: <span id="headschance">2x</span> heads, <span id="tailschance">0x</span> tails
+    </div>
+    <div style="height: 32px;"></div>
+    <div
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid black; border-radius: 4px; padding: 8px;">
+        <div>
+            Your balance:
+        </div>
+        <div id="cash" style="font-size: 500%;">
+            $100
+        </div>
+    </div>
+    <div style="height: 32px;"></div>
+    <div
+        style="display: flex; flex-direction: column; align-items: stretch; min-width: 160px; border: 1px solid black; border-radius: 4px;">
+        <div style="display: flex; flex-direction: row; align-items: baseline; justify-content: center; font-size: 70%;"
+            onclick="document.getElementById('betinput').focus()">
+            Bet
+            <span id="betinput" oninput="document.getElementById('betslider').value = +event.target.innerText || 0"
+                onblur="event.target.innerText = document.getElementById('betslider').value = +event.target.innerText || 0"
+                contenteditable="true"
+                style="text-align: start; font-size: 150%; background-color: transparent; border: none; padding: 4px;">
+                50
+            </span>
+            $
+        </div>
+        <input type="range" min=0 max=100 value=50 class="slider"
+            oninput="document.getElementById('betinput').innerText = event.target.value" id="betslider"
+            style="margin: 6px;">
+        <div style="display: flex; flex-direction: row; border-top: 1px solid black;">
+            <button
+                style="flex: 1 1 0; background-color: transparent; border: none; margin: 0; padding: 4px; font-size: 75%; border-right: 1px solid black;"
+                onclick="betHeads()">Bet Heads</button>
+            <button
+                style="flex: 1 1 0; background-color: transparent; border: none; margin: 0; padding: 4px; font-size: 75%;"
+                onclick="betTails()">Bet Tails</button>
+        </div>
+    </div>
+
+    <div id="pie-overlay"
+        style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(127, 127, 127, 0.5); display: none; justify-content: center; align-items: center;">
+        <div style="position: relative;">
+            <div id="pie"
+                style="transition: transform 3s ease-out; width: 50vw; max-width: 50vh; height: 50vw; max-height: 50vh; border-radius: 100%; border: 8px solid black;">
+            </div>
+            <div
+                style="position: absolute; top: 50%; left: 8px; transform: translate(-25%, -50%); width: 40%; height: 20%; background: conic-gradient(transparent 0deg 225deg, black 225deg 315deg, transparent 315deg 360deg);">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let balance = 100;
+
+        async function bet(chance) {
+            const betAmount = +document.getElementById('betslider').value;
+            if (betAmount > balance) {
+                alert('You don\'t have enough money to bet that much!');
+                return;
+            }
+            if (betAmount <= 0) {
+                alert('You can\'t bet nothing!');
+                return;
+            }
+
+            const rnd = Math.random();
+            const chanceDeg = chance * 360;
+            document.getElementById("pie-overlay").style.display = "flex";
+            document.getElementById("pie").style.background = `conic-gradient(#00E200 ${chanceDeg}deg, #FF0000 ${chanceDeg}deg 360deg)`;
+            document.getElementById("pie").style.transform = ``;
+            await wait(500);
+            document.getElementById("pie").style.transform = `rotate(${rnd * 360 + 360 * Math.floor(Math.random() * 10 + 5) - 90 - chanceDeg}deg)`;
+            await wait(4000);
+            document.getElementById("pie-overlay").style.display = "none";
+
+            if (rnd < chance) {
+                balance += betAmount;
+            } else {
+                balance -= betAmount;
+            }
+            document.getElementById('cash').innerText = '$' + balance;
+            document.getElementById('betslider').max = balance;
+            document.getElementById('betinput').innerText = document.getElementById('betslider').value = Math.min(balance, betAmount);
+        }
+
+        function betHeads() {
+            bet(0.6);
+        }
+
+        function betTails() {
+            bet(0.4);
+        }
+
+        async function wait(ms) {
+            return await new Promise((resolve) => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+
+</html>
