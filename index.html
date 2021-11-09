@@ -10,7 +10,7 @@
 </head>
 
 <body
-    style="position: relative; background-color: #EDEBEA; font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100%; gap: 8px;">
+    style="font-size: 125%; position: relative; background-color: #EDEBEA; font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100%; gap: 8px;">
     <div style="font-size: 75%;">
         Odds: <span id="headschance">60%</span> heads, <span id="tailschance">40%</span> tails
     </div>
@@ -19,7 +19,7 @@
     </div>
     <div style="height: 32px;"></div>
     <div
-        style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid black; border-radius: 4px; padding: 8px;">
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid black; border-radius: 4px; padding: 12px;">
         <div>
             Your balance:
         </div>
@@ -55,12 +55,9 @@
                 onclick="betTails()">Bet Tails</button>
         </div>
     </div>
-    <div>
-        <a href="https://n2d4.github.io" style="color: inherit;">my other stuff</a>
-    </div>
 
     <div id="pie-overlay"
-        style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(127, 127, 127, 0.5); display: none; justify-content: center; align-items: center;">
+        style="position: absolute; top: -100%; left: -100%; right: -100%; bottom: -100%; background-color: rgba(127, 127, 127, 0.5); display: none; justify-content: center; align-items: center;">
         <div style="position: relative;">
             <div id="pie"
                 style="transition: transform 3s ease-out; width: 50vw; max-width: 50vh; height: 50vw; max-height: 50vh; border-radius: 100%; border: 8px solid black;">
@@ -69,6 +66,12 @@
                 style="position: absolute; top: 50%; left: 8px; transform: translate(-25%, -50%); width: 40%; height: 20%; background: conic-gradient(transparent 0deg 225deg, black 225deg 315deg, transparent 315deg 360deg);">
             </div>
         </div>
+    </div>
+
+    <div style="position: absolute; top: 0; right: 0;">
+        <a href="https://n2d4.github.io" target="_blank" rel="noopener noreferrer"
+            style="color: #888888; font-size: 75%;">[my other
+            stuff]</a>
     </div>
 
     <script>
