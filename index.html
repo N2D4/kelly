@@ -14,7 +14,7 @@
         Odds: <span id="headschance">60%</span> heads, <span id="tailschance">40%</span> tails
     </div>
     <div style="font-size: 75%;">
-        Payout: <span id="headschance">2x</span> heads, <span id="tailschance">0x</span> tails
+        Payout: <span id="headschance">2x</span> if correct, <span id="tailschance">0x</span> if wrong
     </div>
     <div style="height: 32px;"></div>
     <div
@@ -32,22 +32,24 @@
         <div style="display: flex; flex-direction: row; align-items: baseline; justify-content: center; font-size: 70%;"
             onclick="document.getElementById('betinput').focus()">
             Bet
-            <span id="betinput" oninput="document.getElementById('betslider').value = +event.target.innerText || 0"
-                onblur="event.target.innerText = document.getElementById('betslider').value = +event.target.innerText || 0"
+            <span id="betinput"
+                oninput="document.getElementById('betslider').value = +event.target.innerText || 0; updateButtonsDisabled()"
+                onblur="event.target.innerText = document.getElementById('betslider').value = +event.target.innerText || 0; updateButtonsDisabled()"
                 contenteditable="true"
                 style="text-align: start; font-size: 150%; background-color: transparent; border: none; padding: 4px;">
-                50
+                0
             </span>
             $
         </div>
-        <input type="range" min=0 max=100 value=50 class="slider"
-            oninput="document.getElementById('betinput').innerText = event.target.value" id="betslider"
+        <input type="range" min=0 max=100 value=0 class="slider"
+            oninput="document.getElementById('betinput').innerText = event.target.value; updateButtonsDisabled()"
+            id="betslider"
             style="margin: 6px;">
         <div style="display: flex; flex-direction: row; border-top: 1px solid black;">
-            <button
+            <button class="bet-button" disabled
                 style="flex: 1 1 0; background-color: transparent; border: none; margin: 0; padding: 4px; font-size: 75%; border-right: 1px solid black;"
                 onclick="betHeads()">Bet Heads</button>
-            <button
+            <button class="bet-button" disabled
                 style="flex: 1 1 0; background-color: transparent; border: none; margin: 0; padding: 4px; font-size: 75%;"
                 onclick="betTails()">Bet Tails</button>
         </div>
@@ -67,6 +69,10 @@
 
     <script>
         let balance = 100;
+
+        function updateButtonsDisabled() {
+            [...document.getElementsByClassName('bet-button')].forEach(button => button.disabled = +document.getElementById('betslider').value === 0);
+        }
 
         async function bet(chance) {
             const betAmount = +document.getElementById('betslider').value;
@@ -97,6 +103,7 @@
             document.getElementById('cash').innerText = '$' + balance;
             document.getElementById('betslider').max = balance;
             document.getElementById('betinput').innerText = document.getElementById('betslider').value = Math.min(balance, betAmount);
+            updateButtonsDisabled();
         }
 
         function betHeads() {
