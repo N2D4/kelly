@@ -78,7 +78,7 @@
         let balance = 100;
 
         function updateButtonsDisabled() {
-            [...document.getElementsByClassName('bet-button')].forEach(button => button.disabled = +document.getElementById('betinput').innerText || 0 === 0);
+            [...document.getElementsByClassName('bet-button')].forEach(button => button.disabled = (+document.getElementById('betinput').innerText || 0) === 0);
         }
 
         async function bet(chance) {
