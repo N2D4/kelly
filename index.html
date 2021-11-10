@@ -78,11 +78,11 @@
         let balance = 100;
 
         function updateButtonsDisabled() {
-            [...document.getElementsByClassName('bet-button')].forEach(button => button.disabled = +document.getElementById('betslider').value === 0);
+            [...document.getElementsByClassName('bet-button')].forEach(button => button.disabled = +document.getElementById('betinput').innerText || 0 === 0);
         }
 
         async function bet(chance) {
-            const betAmount = +document.getElementById('betslider').value;
+            const betAmount = +document.getElementById('betinput').innerText || 0;
             if (betAmount > balance) {
                 alert('You don\'t have enough money to bet that much!');
                 return;
