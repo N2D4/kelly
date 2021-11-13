@@ -112,8 +112,10 @@
                 balance -= betAmount;
             }
             document.getElementById('cash').innerText = '$' + balance;
-            document.getElementById('betslider').max = balance;
-            document.getElementById('betinput').innerText = document.getElementById('betslider').value = Math.min(balance, betAmount);
+
+            const nonNegBalance = Math.max(0, balance);
+            document.getElementById('betslider').max = nonNegBalance;
+            document.getElementById('betinput').innerText = document.getElementById('betslider').value = Math.min(nonNegBalance, betAmount);
             updateButtonsDisabled();
         }
 
