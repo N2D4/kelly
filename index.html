@@ -76,8 +76,8 @@
     <script>
         const rules = new URLSearchParams(window.location.search).get('rules') ?? 'ht';
         const allowDebt = rules.includes('d');
-        if (!rules.includes('h')) document.getElementById('bet-heads').display = 'none';
-        if (!rules.includes('t')) document.getElementById('bet-tails').display = 'none';
+               ('h')) document.getElementById('bet-heads').style.display = 'none';
+        if (!rules.includes('t')) document.getElementById('bet-t            = 'none';
 
         let balance = 100;
 
